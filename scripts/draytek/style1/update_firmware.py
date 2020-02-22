@@ -5,7 +5,7 @@ import os
 import time
 
 
-def run(addr, user, password, fw_path, check_success=False):
+def run(addr, user, password, file_path, check_success=False):
     """Chuong trinh xu ly chinh"""
     # Thoi gian cho trong qua trinh nang cap firmware
     upgrade_wt = 30
@@ -14,12 +14,19 @@ def run(addr, user, password, fw_path, check_success=False):
     check_success_wt = 180
 
     driver = webdriver.Firefox(service_log_path=os.devnull)
-    driver.set_page_load_timeout(30)
+    # driver.set_page_load_timeout(60)
     driver.implicitly_wait(3)
 
     try:
         # Truy cap thiet bi
         driver.get(f"http://{user}:{password}@{addr}")
+
+        # Bo qua thong bao luc dang nhap
+        try:
+            alert = driver.switch_to.alert
+            alert.dismiss()
+        except exceptions.NoAlertPresentException:
+            pass
 
         # Chon Frame chua menu va vao muc nang cap firmware
         driver.switch_to.frame(driver.find_element_by_xpath('//frame[@src="treeapp.asp"]'))
@@ -34,7 +41,7 @@ def run(addr, user, password, fw_path, check_success=False):
         # b1: dien duong dan file firmware muon su dung
         firmware_input = driver.find_element_by_xpath('//input[@name="filename"]')
         firmware_input.clear()
-        firmware_input.send_keys(fw_path)
+        firmware_input.send_keys(file_path)
         # b2: nhan nut apply
         driver.find_element_by_xpath('//input[@id="uploadFWApply"]').click()
         # b3: kiem tra xem da tai firmware len thiet bi hay chua
@@ -106,7 +113,7 @@ def main():
 def debug():
     fw_path = "/home/dungnguyen/PycharmProjects/autocfg/files/firmware/ap910c_r11412_131.all"
     # fw_path = "/home/dungnguyen/PycharmProjects/autocfg/files/firmware/ap910c_r11127_130.all"
-    addr = "192.168.88.243"
+    addr = "192.168.88.233"
     user = "admin"
     password = "admin"
 
@@ -114,5 +121,5 @@ def debug():
 
 
 if __name__ == '__main__':
-    main()
-    # debug()
+    # main()
+    debug()

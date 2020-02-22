@@ -5,7 +5,7 @@ import os
 import time
 
 
-def run(addr, user, password, cfg_path):
+def run(addr, user, password, file_path):
     """Chuong trinh xu ly chinh"""
 
     # Thoi gian cho de tai file cau hinh len thiet bi
@@ -32,7 +32,7 @@ def run(addr, user, password, cfg_path):
         # b1: dien duong dan file cau hinh muon su dung
         cfg_file_input = driver.find_element_by_xpath('//input[@name="filename"]')
         cfg_file_input.clear()
-        cfg_file_input.send_keys(cfg_path)
+        cfg_file_input.send_keys(file_path)
         # b2: nhan nut apply
         driver.find_element_by_xpath('//input[@id="cfgRestoreBtn"]').click()
         # b3: kiem tra xem da tai file cau hinh len thiet bi hay chua

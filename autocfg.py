@@ -52,7 +52,7 @@ def when_end(success_list, false_list):
     print(f"{'=' * shutil.get_terminal_size()[0]}")
 
     more_detail = input("Ban co muon xem chi tiet (y/n): ") or False
-    if more_detail:
+    if more_detail == "y":
         print(f"{'=' * shutil.get_terminal_size()[0]}")
         print("Danh sach thiet bi thanh cong:")
         for i, host in enumerate(success_list, 1):
@@ -63,6 +63,7 @@ def when_end(success_list, false_list):
         for i, host in enumerate(false_list, 1):
             print(f"{i} - {host}")
 
+    print(f"{'=' * shutil.get_terminal_size()[0]}")
     input("Nhan Enter de thoat chuong trinh")
 
 
@@ -168,22 +169,19 @@ def main():
                     if not os.path.exists(file_path):
                         print("Tap tin khong ton tai vui long kiem tra lai")
                         continue
-
-                    add_to_temp = (
-                        input(
-                            "Ban co muon su dung file nay lam mac dinh cho cac thiet bi cung loai khong?"
+                    else:
+                        add_to_temp = (
+                            input(
+                                "Ban co muon su dung file nay lam mac dinh cho cac thiet bi cung loai khong (y/n)?"
+                            )
+                            or False
                         )
-                        or False
-                    )
 
-                    if add_to_temp:
-                        temp_files[device_info] = file_path
-
+                        if add_to_temp == "y":
+                            temp_files[device_info] = file_path
                     break
 
-                raise ValueError(
-                    "Khong tim thay file du lieu can thiet. Khong ro loi gi da xay ra"
-                )
+                break
 
             # Them duong dan file vao danh sach thong so can khai bao
             host_info["file_path"] = file_path
@@ -220,8 +218,10 @@ def main():
             print("Chuan bi chuyen qua thiet bi khac ...")
             success_list.append(host["device_name"])
         except ConnectionError:
-            print("Khong ket noi / dang nhap duoc thiet bi. Vui long kiem tra lai.\n"
-                  "Tien hanh bo qua ...")
+            print(
+                "Khong ket noi / dang nhap duoc thiet bi. Vui long kiem tra lai.\n"
+                "Tien hanh bo qua ..."
+            )
             false_list.append(host["device_name"])
 
     when_end(success_list, false_list)

@@ -1,6 +1,7 @@
 """Nang cap firmware cho thiet bi"""
 from selenium import webdriver
 from selenium.common import exceptions
+from selenium.webdriver.common.action_chains import ActionChains
 import os
 import time
 
@@ -43,7 +44,9 @@ def run(addr, user, password, file_path, check_success=False):
         firmware_input.clear()
         firmware_input.send_keys(file_path)
         # b2: nhan nut apply
-        driver.find_element_by_xpath('//input[@id="uploadFWApply"]').click()
+        apply_button = driver.find_element_by_xpath('//input[@id="uploadFWApply"]')
+        ActionChains(driver).move_to_element(apply_button).perform()
+        ActionChains(driver).click().perform()
         # b3: kiem tra xem da tai firmware len thiet bi hay chua
         check_time = 0
         while check_time <= upgrade_wt:

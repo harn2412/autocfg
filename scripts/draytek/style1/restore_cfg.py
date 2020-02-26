@@ -19,6 +19,13 @@ def run(addr, user, password, file_path):
         # Truy cap thiet bi
         driver.get(f"http://{user}:{password}@{addr}")
 
+        # Bo qua thong bao luc dang nhap
+        try:
+            alert = driver.switch_to.alert
+            alert.dismiss()
+        except exceptions.NoAlertPresentException:
+            pass
+
         # Chon Frame chua menu va vao muc khoi phuc / sao luu file cau hinh
         driver.switch_to.frame(driver.find_element_by_xpath('//frame[@src="treeapp.asp"]'))
         driver.find_element_by_xpath('.//li[@id="A_sys"]').click()

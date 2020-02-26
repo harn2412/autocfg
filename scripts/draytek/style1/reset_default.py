@@ -44,7 +44,7 @@ def main():
     # user = input("User dang nhap: ")
     # password = input("Password dang nhap: ")
     # run(url, user, password)
-    run("192.168.88.243", "admin", "admin")
+    run("192.168.1.1", "admin", "admin")
 
 
 if __name__ == '__main__':
